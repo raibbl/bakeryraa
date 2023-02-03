@@ -1,5 +1,9 @@
 import { Button, Row } from "antd";
+import { Cairo } from "@next/font/google";
+export const cairoFont = Cairo({ subsets: ["latin"] });
+import useMediaQuery from "@mui/material/useMediaQuery";
 export default function Navbar() {
+  const isMobile = useMediaQuery("(max-width:950px)");
   return (
     <nav className="navbar">
       <ul>
@@ -16,10 +20,11 @@ export default function Navbar() {
           <Button
             style={{
               display: "flex",
-              paddingTop: "15px",
+              paddingTop: "10px",
             }}
             size={"small"}
             type="text"
+            className={cairoFont.className}
           >
             من نحن
           </Button>
@@ -28,7 +33,7 @@ export default function Navbar() {
       <Row
         style={{
           height: "100%",
-          margin: -10,
+          margin: isMobile ? -20 : -5,
           padding: 0,
           display: "flex",
           listStyleType: "none",
@@ -42,6 +47,7 @@ export default function Navbar() {
             }}
             size={"small"}
             type="text"
+            className={cairoFont.className}
           >
             عربي
           </Button>
@@ -53,6 +59,7 @@ export default function Navbar() {
             }}
             size={"small"}
             type="text"
+            className={cairoFont.className}
           >
             En
           </Button>
