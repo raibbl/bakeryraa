@@ -14,130 +14,69 @@ import { CarouselResponsive } from "../components/CarouselResponsive";
 import { BakeryName } from "../components/BakeryName";
 import { Cairo } from "@next/font/google";
 import { Button } from "antd";
+import { useState } from "react";
+import { firestore, storage } from "@/lib/firebase";
 const cairoFont = Cairo({ subsets: ["latin"] });
 
-export function FoodItems(): JSX.Element {
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+export async function getServerSideProps() {
+  const productsRef = await firestore.collection("products");
+  const products = (await productsRef.get()).docs.map((doc) => {
+    const data = doc.data();
+    return {
+      ...data,
+    };
+  });
+
+  return {
+    props: { products: products },
+  };
+}
+
+export function FoodItems(props: { products: Array<Object> }): JSX.Element {
+  const { products } = props;
   return (
     <Stack spacing={2}>
-      <Card>
-        <Grid container spacing={0} columns={16}>
-          <Grid xs={8}>
-            <CardMedia
-              sx={{ height: 140 }}
-              image="https://thumbs.dreamstime.com/z/cat-s-half-heads-white-background-19474224.jpg"
-              title="green iguana"
-            />
-          </Grid>
-          <Grid xs={8}>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-          </Grid>
-        </Grid>
-
-        <CardActions style={{ float: "right" }}>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
-        </CardActions>
-      </Card>
-      <Card>
-        <CardMedia
-          sx={{ height: 140 }}
-          image="https://thumbs.dreamstime.com/z/cat-s-half-heads-white-background-19474224.jpg"
-          title="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
-        </CardActions>
-      </Card>
-      <Card>
-        <CardMedia
-          sx={{ height: 140 }}
-          image="https://thumbs.dreamstime.com/z/cat-s-half-heads-white-background-19474224.jpg"
-          title="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
-        </CardActions>
-      </Card>
-      <Card>
-        <CardMedia
-          sx={{ height: 140 }}
-          image="https://thumbs.dreamstime.com/z/cat-s-half-heads-white-background-19474224.jpg"
-          title="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
-        </CardActions>
-      </Card>
-      <Card>
-        <CardMedia
-          sx={{ height: 140 }}
-          image="https://thumbs.dreamstime.com/z/cat-s-half-heads-white-background-19474224.jpg"
-          title="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
-        </CardActions>
-      </Card>
+      {products.map((product) => (
+        <ProductItem product={product} />
+      ))}
     </Stack>
   );
 }
-export default function Page({}) {
+function ProductItem(props: { product: object }): JSX.Element {
+  const { product } = props;
+  return (
+    <Card>
+      <Grid container columns={16}>
+        <Grid xs={8}>
+          <CardMedia
+            sx={{ height: 140 }}
+            image={product?.images?.[0]}
+            title="green iguana"
+          />
+        </Grid>
+        <Grid xs={8}>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {product?.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {product?.description}
+            </Typography>
+          </CardContent>
+        </Grid>
+      </Grid>
+
+      <CardActions style={{ float: "right" }}>
+        <Button size="small">Share</Button>
+        <Button size="small">Learn More</Button>
+      </CardActions>
+    </Card>
+  );
+}
+
+export default function Page(props: { products: Array<Object> }) {
   const isMobile = useMediaQuery("(max-width:950px)");
+  const { products } = props;
   return (
     <main>
       <div
@@ -173,7 +112,7 @@ export default function Page({}) {
           أطلب الأن
         </Button>
       </div>
-      <FoodItems />
+      <FoodItems products={products} />
     </main>
   );
 }
