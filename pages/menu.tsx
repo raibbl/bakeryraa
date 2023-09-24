@@ -81,7 +81,6 @@ function ProductItem(props: { product: object }): JSX.Element {
             console.log(value);
             setProductCounter(value);
           }}
-          step={1}
           onStep={(value) => {
             console.log(value);
             setProductCounter(productCounter + 1);
@@ -95,7 +94,11 @@ function ProductItem(props: { product: object }): JSX.Element {
           addonAfter={
             <MinusOutlined
               style={{ marginRight: "4px" }}
-              onClick={() => setProductCounter(productCounter - 1)}
+              onClick={() =>
+                setProductCounter(
+                  productCounter - 1 >= 0 ? productCounter - 1 : 0
+                )
+              }
             />
           }
           defaultValue={0}
