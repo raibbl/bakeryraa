@@ -12,8 +12,10 @@ import {
 } from "@mui/material";
 import { CarouselResponsive } from "../components/CarouselResponsive";
 import { BakeryName } from "../components/BakeryName";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
+
 import { Cairo } from "@next/font/google";
-import { Button } from "antd";
+import { Button, InputNumber } from "antd";
 import { useState } from "react";
 import { firestore, storage } from "@/lib/firebase";
 const cairoFont = Cairo({ subsets: ["latin"] });
@@ -26,6 +28,7 @@ export async function getServerSideProps() {
       ...data,
     };
   });
+
 
   return {
     props: { products: products },
@@ -44,17 +47,22 @@ export function FoodItems(props: { products: Array<Object> }): JSX.Element {
 }
 function ProductItem(props: { product: object }): JSX.Element {
   const { product } = props;
+  const [productCounter, setProductCounter] = useState(0);
   return (
     <Card>
-      <Grid container columns={16}>
-        <Grid xs={8}>
+      <Grid container columns={2}>
+        <Grid item direction="column" xs={1}>
           <CardMedia
-            sx={{ height: 140 }}
+            sx={{
+              width: "100%",
+              height: "200%",
+              objectFit: "cover",
+            }}
             image={product?.images?.[0]}
             title="green iguana"
           />
         </Grid>
-        <Grid xs={8}>
+        <Grid item direction="column" xs={1}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {product?.name}
@@ -66,9 +74,39 @@ function ProductItem(props: { product: object }): JSX.Element {
         </Grid>
       </Grid>
 
-      <CardActions style={{ float: "right" }}>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+      <CardActions disableSpacing style={{ float: "right" }}>
+        {/* <Button
+          icon={<PlusOutlined />}
+          size="small"
+          style={{ marginRight: "4px" }}
+          onClick={() => setProductCounter(productCounter + 1)}
+        ></Button> */}
+        <InputNumber
+          style={{ width: "120px" }}
+          value={productCounter}
+          onChange={(value) => {
+            console.log(value);
+            setProductCounter(value);
+          }}
+          step={1}
+          onStep={(value) => {
+            console.log(value);
+            setProductCounter(productCounter + 1);
+          }}
+          addonBefore={
+            <PlusOutlined
+              style={{ marginRight: "4px" }}
+              onClick={() => setProductCounter(productCounter + 1)}
+            />
+          }
+          addonAfter={
+            <MinusOutlined
+              style={{ marginRight: "4px" }}
+              onClick={() => setProductCounter(productCounter - 1)}
+            />
+          }
+          defaultValue={0}
+        />
       </CardActions>
     </Card>
   );
