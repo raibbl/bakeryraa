@@ -29,7 +29,6 @@ export async function getServerSideProps() {
     };
   });
 
-
   return {
     props: { products: products },
   };
@@ -75,12 +74,6 @@ function ProductItem(props: { product: object }): JSX.Element {
       </Grid>
 
       <CardActions disableSpacing style={{ float: "right" }}>
-        {/* <Button
-          icon={<PlusOutlined />}
-          size="small"
-          style={{ marginRight: "4px" }}
-          onClick={() => setProductCounter(productCounter + 1)}
-        ></Button> */}
         <InputNumber
           style={{ width: "120px" }}
           value={productCounter}
