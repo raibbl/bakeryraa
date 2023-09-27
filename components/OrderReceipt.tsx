@@ -68,7 +68,7 @@ export default function OrderReceipt(props: {
             <TableCell component="th" scope="row"></TableCell>
             <TableCell align="right"></TableCell>
             <TableCell align="right"></TableCell>
-            <TableCell align="right">{total}</TableCell>
+            <TableCell align="right">&nbsp;(ريال) $ {total}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
