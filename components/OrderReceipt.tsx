@@ -28,9 +28,9 @@ const rows = [
 
 export default function OrderReceipt(props: {
   productsSelected: ProductSelected[];
+  isMobile: boolean;
 }) {
-  const { productsSelected } = props;
-  console.log(productsSelected);
+  const { productsSelected, isMobile } = props;
   let total = 0;
   productsSelected.map(
     (productSelected: ProductSelected) =>
@@ -39,7 +39,7 @@ export default function OrderReceipt(props: {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: isMobile ? 300 : 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>الفاتورة</TableCell>

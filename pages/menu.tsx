@@ -75,7 +75,7 @@ export default function Page(props: { products: Array<Object> }) {
           setProductsSelected(productsSelected)
         }
       />
-      <OrderReceipt productsSelected={productsSelected} />
+      <OrderReceipt isMobile={isMobile} productsSelected={productsSelected} />
     </main>
   );
 }
