@@ -6,7 +6,7 @@ import {
   CardActions,
   Grid,
 } from "@mui/material";
-import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined, DollarOutlined } from "@ant-design/icons";
 import { InputNumber } from "antd";
 import { useState, useEffect } from "react";
 
@@ -38,14 +38,25 @@ export function ProductItem(props: {
             <Typography gutterBottom variant="h5" component="div">
               {product?.name}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body٣" color="text.secondary">
               {product?.description}
             </Typography>
+            <div style={{ paddingTop: 10, display: "flex" }}>
+              <Typography
+                sx={{ paddingRight: 1 }}
+                variant="subtitle4"
+                color="text.secondary"
+                component="div"
+              >
+                {product?.price}&nbsp;(ريال)
+              </Typography>
+              <DollarOutlined />
+            </div>
           </CardContent>
         </Grid>
       </Grid>
 
-      <CardActions disableSpacing style={{ float: "right" }}>
+      <CardActions style={{ float: "right" }}>
         <InputNumber
           style={{ width: "120px" }}
           value={productCounter}
