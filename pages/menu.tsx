@@ -9,6 +9,7 @@ import { ProductItems } from "../components/ProductItems";
 import OrderReceipt from "@/components/OrderReceipt";
 import { useState } from "react";
 import { ProductSelected } from "./ProductSelected";
+import OrderForm from "@/components/OrderForm";
 const cairoFont = Cairo({ subsets: ["latin"] });
 
 export async function getServerSideProps() {
@@ -76,6 +77,8 @@ export default function Page(props: { products: Array<Object> }) {
         }
       />
       <OrderReceipt isMobile={isMobile} productsSelected={productsSelected} />
+      <br />
+      <OrderForm />
     </main>
   );
 }
